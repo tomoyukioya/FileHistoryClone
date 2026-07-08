@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [ master, main ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Build
+        run: dotnet build FileHistory/FileHistory.sln -c Release
+
+      - name: Test
+        run: dotnet test FileHistoryTests/FileHistoryTests.csproj -c Release --no-build --logger "console;verbosity=normal"
+
+      # Tagged builds (v*) also publish ready-to-run zips to GitHub Releases:
+      #   - standard:   requires the .NET 8 Desktop Runtime (small download)
+      #   - standalone: bundles the runtime, runs on any Windows 10/11 machine
+      - name: Publish (framework-dependent)
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: dotnet publish FileHistory/FileHistory.csproj -c Release -r win-x64 --self-contained false -p:PublishSingleFile=true -o publish/standard
+
+      - name: Publish (self-contained)
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: dotnet publish FileHistory/FileHistory.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o publish/standalone
+
+      - name: Package
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: pwsh
+        run: |
+          Compress-Archive -Path publish/standard/* -DestinationPath "FileHistoryClone-${{ github.ref_name }}-win-x64.zip"
+          Compress-Archive -Path publish/standalone/* -DestinationPath "FileHistoryClone-${{ github.ref_name }}-win-x64-standalone.zip"
+
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: FileHistoryClone-*.zip
+          generate_release_notes: true
