@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Tray_Open" xml:space="preserve">
+    <value>開く(&amp;O)</value>
+  </data>
+  <data name="Tray_Exit" xml:space="preserve">
+    <value>終了(&amp;X)</value>
+  </data>
+  <data name="Tray_AutoStart" xml:space="preserve">
+    <value>Windows 起動時に実行(&amp;W)</value>
+  </data>
+  <data name="Tray_OpenSettings" xml:space="preserve">
+    <value>設定を開く(&amp;S)(appsettings.json)</value>
+  </data>
+  <data name="Tray_SettingsHint" xml:space="preserve">
+    <value>保護するフォルダなどを編集し、FileHistoryClone を再起動(トレイアイコン→終了→もう一度起動)すると反映されます。</value>
+  </data>
+  <data name="Tray_FirstRunNotice" xml:space="preserve">
+    <value>バックアップを開始しました。保護対象: {0}</value>
+  </data>
+  <data name="Tray_AlreadyRunning" xml:space="preserve">
+    <value>FileHistoryClone は既に起動しています。</value>
+  </data>
+  <data name="Common_Error" xml:space="preserve">
+    <value>エラー</value>
+  </data>
+  <data name="MainForm_Title" xml:space="preserve">
+    <value>FileHistoryClone ファイル復元</value>
+  </data>
+  <data name="MainForm_BackedUpFileCount" xml:space="preserve">
+    <value>バックアップ済みファイル数：</value>
+  </data>
+  <data name="MainForm_CrawledFileCount" xml:space="preserve">
+    <value>クローリング済みファイル数：</value>
+  </data>
+  <data name="MainForm_ButtonCleanup" xml:space="preserve">
+    <value>バックアップ整理</value>
+  </data>
+  <data name="MainForm_ButtonSuspend" xml:space="preserve">
+    <value>クローリング一時停止</value>
+  </data>
+  <data name="MainForm_ButtonResume" xml:space="preserve">
+    <value>クローリング再開</value>
+  </data>
+  <data name="MainForm_ButtonSchedule" xml:space="preserve">
+    <value>バックアップ候補</value>
+  </data>
+  <data name="MainForm_ColBackupTime" xml:space="preserve">
+    <value>バックアップ日時</value>
+  </data>
+  <data name="MainForm_ColSize" xml:space="preserve">
+    <value>サイズ</value>
+  </data>
+  <data name="MainForm_ColLastWrite" xml:space="preserve">
+    <value>更新日時</value>
+  </data>
+  <data name="MainForm_RestoreFile" xml:space="preserve">
+    <value>ファイル「{0}」を復元します</value>
+  </data>
+  <data name="MainForm_OpenVersion" xml:space="preserve">
+    <value>「{0}」のこの版を一時コピーして開く</value>
+  </data>
+  <data name="MainForm_RestoreDirectory" xml:space="preserve">
+    <value>ディレクトリ「{0}」を復元します</value>
+  </data>
+  <data name="MainForm_SelectRestoreFolder" xml:space="preserve">
+    <value>復元先のフォルダを選択してください</value>
+  </data>
+  <data name="MainForm_FileNotFound" xml:space="preserve">
+    <value>ファイルが見つかりません</value>
+  </data>
+  <data name="MainForm_DirectoryNotFound" xml:space="preserve">
+    <value>ディレクトリが見つかりません</value>
+  </data>
+  <data name="MainForm_OverwriteFile" xml:space="preserve">
+    <value>ファイルが存在します。上書きしますか。</value>
+  </data>
+  <data name="MainForm_OverwriteDirectory" xml:space="preserve">
+    <value>ディレクトリが存在します。上書きしますか。</value>
+  </data>
+  <data name="MainForm_OverwriteTitle" xml:space="preserve">
+    <value>上書き確認</value>
+  </data>
+  <data name="Cleanup_Title" xml:space="preserve">
+    <value>バックアップ整理</value>
+  </data>
+  <data name="Cleanup_ScannedFiles" xml:space="preserve">
+    <value>スキャンファイル数：</value>
+  </data>
+  <data name="Cleanup_DeletedFiles" xml:space="preserve">
+    <value>削除ファイル数：</value>
+  </data>
+  <data name="Cleanup_ButtonClose" xml:space="preserve">
+    <value>閉じる</value>
+  </data>
+  <data name="Cleanup_ButtonStart" xml:space="preserve">
+    <value>整理</value>
+  </data>
+  <data name="Cleanup_ButtonStop" xml:space="preserve">
+    <value>停止</value>
+  </data>
+  <data name="Cleanup_ModeKeepAllLatest" xml:space="preserve">
+    <value>全ての最新のみ残す</value>
+  </data>
+  <data name="Cleanup_ModeKeepExistingLatest" xml:space="preserve">
+    <value>既存ファイルの最新のみ残す</value>
+  </data>
+  <data name="Schedule_Title" xml:space="preserve">
+    <value>バックアップ候補</value>
+  </data>
+  <data name="Schedule_Count" xml:space="preserve">
+    <value>バックアップ候補数：</value>
+  </data>
+  <data name="Schedule_ColFileName" xml:space="preserve">
+    <value>ファイル名</value>
+  </data>
+  <data name="Schedule_ColLastUpdate" xml:space="preserve">
+    <value>最終更新日時</value>
+  </data>
+  <data name="Schedule_ColScheduledTime" xml:space="preserve">
+    <value>バックアップ予定時刻</value>
+  </data>
+</root>

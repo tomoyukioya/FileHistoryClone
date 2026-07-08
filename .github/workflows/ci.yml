@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [ master, main ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ master, main ]
+
+# Allow the tagged-release job to create Releases and upload assets.
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Build
+        run: dotnet build FileHistory/FileHistory.sln -c Release
+
+      - name: Test
+        run: dotnet test FileHistoryTests/FileHistoryTests.csproj -c Release --no-build --logger "console;verbosity=normal"
+
+      # Tagged builds (v*) also publish ready-to-run zips to GitHub Releases:
+      #   - standard:   requires the .NET 8 Desktop Runtime (small download)
+      #   - standalone: bundles the runtime, runs on any Windows 10/11 machine
+      - name: Publish (framework-dependent)
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: dotnet publish FileHistory/FileHistory.csproj -c Release -r win-x64 --self-contained false -p:PublishSingleFile=true -o publish/standard
+
+      - name: Publish (self-contained)
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: dotnet publish FileHistory/FileHistory.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o publish/standalone
+
+      - name: Package (zips)
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: pwsh
+        run: |
+          Compress-Archive -Path publish/standard/* -DestinationPath "FileHistoryClone-${{ github.ref_name }}-win-x64.zip"
+          Compress-Archive -Path publish/standalone/* -DestinationPath "FileHistoryClone-${{ github.ref_name }}-win-x64-standalone.zip"
+
+      # Build a proper per-user installer (Start-menu shortcut, uninstaller) from the standalone build.
+      - name: Build installer (Inno Setup)
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: pwsh
+        run: |
+          choco install innosetup --no-progress -y
+          $ver = "${{ github.ref_name }}".TrimStart('v')
+          # Inno Setup resolves relative paths against the .iss location, so pass an absolute SourceDir.
+          $src = Join-Path $PWD 'publish\standalone'
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "/DSourceDir=$src" "/DMyAppVersion=$ver" installer\FileHistoryClone.iss
+
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v3
+        with:
+          files: |
+            FileHistoryClone-*.zip
+            installer/FileHistoryCloneSetup-*.exe
+          generate_release_notes: true

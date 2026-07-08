@@ -1,0 +1,46 @@
+name: Bug report
+description: Something is broken or behaving unexpectedly
+labels: [bug]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you expect, and what happened instead?
+      placeholder: "A file I changed was never backed up / restore produced the wrong version / ..."
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Configure IncludeDirs to ...
+        2. Create/modify file ...
+        3. Wait ... / open the restore window ...
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: FileHistoryClone version
+      placeholder: "v1.0.0"
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Windows version
+      placeholder: "Windows 11 24H2"
+  - type: textarea
+    id: config
+    attributes:
+      label: appsettings.json
+      description: Paste your Settings section. **Mask any personal paths you don't want public** (e.g. replace your user name with `<user>`).
+      render: json
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: The log file location is configured in `Logging:File:Path` (default `%USERPROFILE%\FileHistoryCloneBackup\Log\app.log`). Paste the lines around the time of the problem.
+      render: text

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Tray_Open" xml:space="preserve">
+    <value>&amp;Open</value>
+  </data>
+  <data name="Tray_Exit" xml:space="preserve">
+    <value>E&amp;xit</value>
+  </data>
+  <data name="Tray_AutoStart" xml:space="preserve">
+    <value>Start with &amp;Windows</value>
+  </data>
+  <data name="Tray_OpenSettings" xml:space="preserve">
+    <value>Open &amp;Settings (appsettings.json)</value>
+  </data>
+  <data name="Tray_SettingsHint" xml:space="preserve">
+    <value>Edit the folders to protect, then restart FileHistoryClone (tray icon - Exit, then launch again) to apply.</value>
+  </data>
+  <data name="Tray_FirstRunNotice" xml:space="preserve">
+    <value>Backup started. Protected folders: {0}</value>
+  </data>
+  <data name="Tray_AlreadyRunning" xml:space="preserve">
+    <value>FileHistoryClone is already running.</value>
+  </data>
+  <data name="Common_Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="MainForm_Title" xml:space="preserve">
+    <value>FileHistoryClone - Restore Files</value>
+  </data>
+  <data name="MainForm_BackedUpFileCount" xml:space="preserve">
+    <value>Backed up files:</value>
+  </data>
+  <data name="MainForm_CrawledFileCount" xml:space="preserve">
+    <value>Crawled files:</value>
+  </data>
+  <data name="MainForm_ButtonCleanup" xml:space="preserve">
+    <value>Clean Up Backups</value>
+  </data>
+  <data name="MainForm_ButtonSuspend" xml:space="preserve">
+    <value>Suspend Crawling</value>
+  </data>
+  <data name="MainForm_ButtonResume" xml:space="preserve">
+    <value>Resume Crawling</value>
+  </data>
+  <data name="MainForm_ButtonSchedule" xml:space="preserve">
+    <value>Backup Queue</value>
+  </data>
+  <data name="MainForm_ColBackupTime" xml:space="preserve">
+    <value>Backup Time</value>
+  </data>
+  <data name="MainForm_ColSize" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="MainForm_ColLastWrite" xml:space="preserve">
+    <value>Last Modified</value>
+  </data>
+  <data name="MainForm_RestoreFile" xml:space="preserve">
+    <value>Restore file "{0}"</value>
+  </data>
+  <data name="MainForm_OpenVersion" xml:space="preserve">
+    <value>Open this version of "{0}" (temporary copy)</value>
+  </data>
+  <data name="MainForm_RestoreDirectory" xml:space="preserve">
+    <value>Restore directory "{0}"</value>
+  </data>
+  <data name="MainForm_SelectRestoreFolder" xml:space="preserve">
+    <value>Select the destination folder</value>
+  </data>
+  <data name="MainForm_FileNotFound" xml:space="preserve">
+    <value>File not found</value>
+  </data>
+  <data name="MainForm_DirectoryNotFound" xml:space="preserve">
+    <value>Directory not found</value>
+  </data>
+  <data name="MainForm_OverwriteFile" xml:space="preserve">
+    <value>The file already exists. Overwrite it?</value>
+  </data>
+  <data name="MainForm_OverwriteDirectory" xml:space="preserve">
+    <value>The directory already exists. Overwrite it?</value>
+  </data>
+  <data name="MainForm_OverwriteTitle" xml:space="preserve">
+    <value>Confirm Overwrite</value>
+  </data>
+  <data name="Cleanup_Title" xml:space="preserve">
+    <value>Clean Up Backups</value>
+  </data>
+  <data name="Cleanup_ScannedFiles" xml:space="preserve">
+    <value>Scanned files:</value>
+  </data>
+  <data name="Cleanup_DeletedFiles" xml:space="preserve">
+    <value>Deleted files:</value>
+  </data>
+  <data name="Cleanup_ButtonClose" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Cleanup_ButtonStart" xml:space="preserve">
+    <value>Clean Up</value>
+  </data>
+  <data name="Cleanup_ButtonStop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="Cleanup_ModeKeepAllLatest" xml:space="preserve">
+    <value>Keep only the latest version of all files</value>
+  </data>
+  <data name="Cleanup_ModeKeepExistingLatest" xml:space="preserve">
+    <value>Keep only the latest version of existing files</value>
+  </data>
+  <data name="Schedule_Title" xml:space="preserve">
+    <value>Backup Queue</value>
+  </data>
+  <data name="Schedule_Count" xml:space="preserve">
+    <value>Scheduled backups:</value>
+  </data>
+  <data name="Schedule_ColFileName" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="Schedule_ColLastUpdate" xml:space="preserve">
+    <value>Last Modified</value>
+  </data>
+  <data name="Schedule_ColScheduledTime" xml:space="preserve">
+    <value>Scheduled Time</value>
+  </data>
+</root>
