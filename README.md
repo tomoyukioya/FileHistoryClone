@@ -21,9 +21,17 @@ FileHistoryClone is a lightweight, tray-resident backup tool that revives the sp
 
 ## Quick start
 
-**Option A — download:** from [Releases](../../releases), run the installer (`FileHistoryCloneSetup-*.exe`, per-user, no admin) — or grab a portable zip (`-standalone` needs no .NET runtime), unzip, and run `FileHistory.exe`.
+**Option A — winget:**
 
-**Option B — build from source:**
+```powershell
+winget install tomoyukioya.FileHistoryClone
+```
+
+(Later, update with `winget upgrade tomoyukioya.FileHistoryClone`.)
+
+**Option B — download:** from [Releases](../../releases), run the installer (`FileHistoryCloneSetup-*.exe`, per-user, no admin) — or grab a portable zip (`-standalone` needs no .NET runtime), unzip, and run `FileHistory.exe`.
+
+**Option C — build from source:**
 
 ```powershell
 git clone https://github.com/tomoyukioya/FileHistoryClone.git
@@ -84,16 +92,18 @@ All paths support environment-variable expansion (e.g. `%USERPROFILE%\Documents`
 
 | Key | Description |
 | --- | --- |
-| `BackupBaseDir` | Root folder for backups. Data goes to `{BackupBaseDir}\{User}\{Machine}\Data` |
+| `BackupBaseDir` | Root folder for backups. Copies go to `{BackupBaseDir}\{User}\{Machine}\BackupFiles` |
 | `DefaultBackupInterval` | Minimum seconds between two backups of the same file |
 | `IncludeDirs` | Folders to protect. Each entry may override `BackupInterval`; the longest matching path wins |
 | `ExcludeDirs` | Exclude patterns: absolute paths, names matched at any depth (`.git`), globs (`*.tmp`), re-include exceptions (`!important.log`), and `#`-prefixed comments |
-| `CrawlingInterval` | Seconds to wait after a full crawl before the next one |
+| `CrawlingInterval` | Full-crawl cycle in seconds — from the start of one crawl to the start of the next (default 1 day) |
 | `CrawlingIdleTimer` | Seconds of user inactivity required before crawling runs |
 | `Language` | UI language (`"en"`, `"ja"`); empty = follow the OS |
-| `MaxGenerations` | Max backup generations per file (0 = unlimited) |
+| `MaxGenerations` | Max backup generations per file (0 = unlimited); applied immediately when a new backup is saved |
 | `RetentionDays` | Delete backups older than N days, newest always kept (0 = unlimited) |
-| `RetentionScanInterval` | Seconds between retention-policy scans |
+| `RetentionScanInterval` | Seconds between retention-policy scans (`RetentionDays` / retroactive cleanup) |
+| `RetentionStartupDelay` | Seconds after startup before the first retention scan |
+| `MaxLowPrioritySchedules` / `MaxCopyWorkers` | Advanced tuning: crawler backup queue size / concurrent copy workers |
 
 See [appsettings.example.json](FileHistory/appsettings.example.json) for a commented template.
 
@@ -114,8 +124,8 @@ See [appsettings.example.json](FileHistory/appsettings.example.json) for a comme
 
 - **DirectoryWatcher** reacts to file system events and enqueues high-priority backup requests.
 - **Crawler** walks the include directories on lowest-priority threads and enqueues anything not yet backed up.
-- **BackupScheduler** waits until a file has been stable for its backup interval, deduplicates, and copies with up to 10 concurrent workers. Failed copies are rolled back.
-- **RetentionWorker** periodically applies the retention policy.
+- **BackupScheduler** waits until a file has been stable for its backup interval, deduplicates, and copies with a configurable number of concurrent workers. Failed copies are rolled back. After each successful copy, the retention policy is applied to that file immediately.
+- **RetentionWorker** periodically applies the retention policy (age-based cleanup and files that no longer change).
 - The catalog (`Catalog.db`) maps directories/files to their backup generations and timestamps.
 
 ## Repository layout

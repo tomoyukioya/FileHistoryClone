@@ -18,13 +18,13 @@ namespace FileHistory
         public List<IncludeDir> IncludeDirs { get; set; }
         public List<string> ExcludeDirs { get; set; }
         /// <summary>
-        /// クローリング間隔（秒）
+        /// フルクロールの実行周期（秒）。前回クロール開始から次のクロール開始までの時間
         /// </summary>
-        public double CrawlingInterval { get; set; }
+        public double CrawlingInterval { get; set; } = 86400;
         /// <summary>
         /// クローリング開始アイドルタイム（秒）
         /// </summary>
-        public double CrawlingIdleTimer { get; set; }
+        public double CrawlingIdleTimer { get; set; } = 60;
         /// <summary>
         /// UI言語 ("ja", "en" など)。空文字/未指定ならOSの言語に従う
         /// </summary>
@@ -41,6 +41,18 @@ namespace FileHistory
         /// 保持ポリシー適用スキャンの実行間隔（秒）
         /// </summary>
         public double RetentionScanInterval { get; set; } = 86400;
+        /// <summary>
+        /// 起動から保持ポリシースキャン開始までの待機時間（秒）
+        /// </summary>
+        public double RetentionStartupDelay { get; set; } = 300;
+        /// <summary>
+        /// クロール由来（低優先度）バックアップの待ち行列の最大数
+        /// </summary>
+        public int MaxLowPrioritySchedules { get; set; } = 100;
+        /// <summary>
+        /// 同時に実行するバックアップコピーの最大数
+        /// </summary>
+        public int MaxCopyWorkers { get; set; } = 10;
 
         /// <summary>
         /// パス中の環境変数（%USERPROFILE% など）を展開する
@@ -49,19 +61,39 @@ namespace FileHistory
             => string.IsNullOrEmpty(path) ? path : Environment.ExpandEnvironmentVariables(path);
 
         // 基本ディレクトリ要素
-        public string DataDir
+        // v1.1 でフォルダ名を変更(Data→BackupFiles、Configuration→Database)。
+        // どちらかの初アクセス時に旧名フォルダを両方まとめて自動リネームで移行し、
+        // 移行できない場合(ロック中など)は旧名のまま動作を継続する。
+        string _dataDir;
+        public string DataDir => _dataDir ??= ResolveDir("BackupFiles", "Data");
+
+        string _configDir;
+        public string ConfigDir => _configDir ??= ResolveDir("Database", "Configuration");
+
+        bool _legacyDirsMigrated;
+
+        string ResolveDir(string name, string legacyName)
         {
-            get
+            var baseDir = Path.Combine(Expand(BackupBaseDir), Environment.UserName, Environment.MachineName);
+            if (!_legacyDirsMigrated)
             {
-                return Path.Combine(Expand(BackupBaseDir), Environment.UserName, Environment.MachineName, "Data");
+                _legacyDirsMigrated = true;
+                MigrateLegacyDir(baseDir, "Data", "BackupFiles");
+                MigrateLegacyDir(baseDir, "Configuration", "Database");
             }
+            var newDir = Path.Combine(baseDir, name);
+            var legacyDir = Path.Combine(baseDir, legacyName);
+            return Directory.Exists(legacyDir) && !Directory.Exists(newDir) ? legacyDir : newDir;
         }
 
-        public string ConfigDir
+        static void MigrateLegacyDir(string baseDir, string legacyName, string newName)
         {
-            get
+            var legacyDir = Path.Combine(baseDir, legacyName);
+            var newDir = Path.Combine(baseDir, newName);
+            if (!Directory.Exists(newDir) && Directory.Exists(legacyDir))
             {
-                return Path.Combine(Expand(BackupBaseDir), Environment.UserName, Environment.MachineName, "Configuration");
+                try { Directory.Move(legacyDir, newDir); }
+                catch { }
             }
         }
         public string BackupDb

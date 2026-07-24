@@ -7,6 +7,8 @@
 #   show-backup   : list all files under the backup Data folder
 #   retention60   : set RetentionScanInterval=60 in appsettings.json (portable install)
 #   retention60i  : same, but for the installed version (%LOCALAPPDATA%)
+#   crawlfast     : set CrawlingIdleTimer=0 (portable) so crawling runs without idle wait
+#   clean-backup  : delete %USERPROFILE%\FileHistoryCloneBackup (stop the app first)
 #   marker        : add "my-marker" to ExcludeDirs of the installed appsettings.json
 #   show-config   : print appsettings.json (portable)
 #   show-configi  : print appsettings.json (installed)
@@ -78,6 +80,20 @@ switch ($Command) {
     }
     "retention60"  { Set-Retention60 $PortableConfig }
     "retention60i" { Set-Retention60 $InstalledConfig }
+    "crawlfast" {
+        # CrawlingIdleTimer=0: crawl without waiting for user idle (removed from the GUI in v1.1)
+        $raw = Get-Content $PortableConfig -Raw
+        $new = $raw -replace '"CrawlingIdleTimer":\s*\d+', '"CrawlingIdleTimer": 0'
+        Set-Content $PortableConfig $new -Encoding utf8
+        Write-Host "CrawlingIdleTimer set to 0 in $PortableConfig"
+        Get-Content $PortableConfig | Select-String CrawlingIdleTimer
+    }
+    "clean-backup" {
+        if (Test-Path $BackupRoot) {
+            Remove-Item $BackupRoot -Recurse -Force
+            Write-Host "Removed $BackupRoot"
+        } else { Write-Host "No backup at $BackupRoot" }
+    }
     "marker" {
         $raw = Get-Content $InstalledConfig -Raw
         $new = $raw -replace '"ExcludeDirs":\s*\[', "`"ExcludeDirs`": [`r`n      `"my-marker`","
@@ -127,13 +143,13 @@ switch ($Command) {
         Start-Process $local
     }
     "install101" {
-        $local = Join-Path $env:TEMP "FileHistoryCloneSetup-1.0.1.exe"
-        Copy-Item "C:\sandbox\FileHistoryCloneSetup-1.0.1.exe" $local -Force
+        $local = Join-Path $env:TEMP "FileHistoryCloneSetup-1.1.0.exe"
+        Copy-Item "C:\sandbox\FileHistoryCloneSetup-1.1.0.exe" $local -Force
         Write-Host "Copied to $local, launching..."
         Start-Process $local
     }
     default {
         Write-Host "Usage: powershell -ep bypass -File C:\sandbox\tools.ps1 <command>"
-        Write-Host "Commands: edit-sample | edit-sample3 | show-backup | retention60 | retention60i | marker | show-config | show-configi | res640 | res1280 | ps | wmi | unstick | kill-app | kill-setup | install100 | install101"
+        Write-Host "Commands: edit-sample | edit-sample3 | show-backup | retention60 | retention60i | crawlfast | clean-backup | marker | show-config | show-configi | res640 | res1280 | ps | wmi | unstick | kill-app | kill-setup | install100 | install101 (=1.1.0)"
     }
 }

@@ -68,10 +68,10 @@ namespace FileHistory
             Text = $"{Strings.Get("MainForm_Title")} - v{AppVersion}";
             label1.Text = Strings.Get("MainForm_BackedUpFileCount");
             label2.Text = Strings.Get("MainForm_CrawledFileCount");
-            button_cleanup.Text = Strings.Get("MainForm_ButtonCleanup");
             menuTools.Text = Strings.Get("MainForm_MenuTools");
             menuItemSettings.Text = Strings.Get("MainForm_MenuSettings");
             menuItemOpenConfig.Text = Strings.Get("MainForm_MenuOpenConfig");
+            menuItemCleanup.Text = Strings.Get("MainForm_MenuCleanup");
             menuHelp.Text = Strings.Get("MainForm_MenuHelp");
             menuItemAbout.Text = Strings.Get("MainForm_MenuAbout");
         }
@@ -170,7 +170,7 @@ namespace FileHistory
             });
 
             // TreeView初期化
-            var node = new TreeNode("Data");
+            var node = new TreeNode("BackupFiles");
             node.Tag = new DirectoryDbEntry { Id = -1 };
             node.Nodes.Add("");
             treeView.Nodes.Add(node);
@@ -466,24 +466,24 @@ namespace FileHistory
         }
 
         /// <summary>
-        /// バックアップ整理ボタン
+        /// バックアップ整理(ツールメニュー)
         /// </summary>
-        private void button_cleanup_Click(object sender, EventArgs e)
+        private void menuItemCleanup_Click(object sender, EventArgs e)
         {
             try
             {
-                _logger.LogTrace("Enter button_cleanup_Click()");
+                _logger.LogTrace("Enter menuItemCleanup_Click()");
                 new CleanupForm(_settings, _db, _crawler, _loggerFactory).ShowDialog();
                 treeView.Nodes[0].Collapse();
                 listView.Items.Clear();
             }
             catch(Exception ex)
             {
-                _logger.LogError($"Exception caught in button_cleanup_Click(): {ex}");
+                _logger.LogError($"Exception caught in menuItemCleanup_Click(): {ex}");
             }
             finally
             {
-                _logger.LogTrace("Leave button_cleanup_Click()");
+                _logger.LogTrace("Leave menuItemCleanup_Click()");
             }
         }
     }

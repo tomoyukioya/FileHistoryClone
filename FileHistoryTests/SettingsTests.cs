@@ -16,10 +16,10 @@ namespace FileHistory.Tests
             {
                 BackupBaseDir = "C:\\dir1",
             };
-            Assert.AreEqual($"C:\\dir1\\{Environment.UserName}\\{Environment.MachineName}\\Data", settings.DataDir);
+            Assert.AreEqual($"C:\\dir1\\{Environment.UserName}\\{Environment.MachineName}\\BackupFiles", settings.DataDir);
 
             settings.BackupBaseDir = "C:\\dir1\\";
-            Assert.AreEqual($"C:\\dir1\\{Environment.UserName}\\{Environment.MachineName}\\Data", settings.DataDir);
+            Assert.AreEqual($"C:\\dir1\\{Environment.UserName}\\{Environment.MachineName}\\BackupFiles", settings.DataDir);
         }
 
         [TestMethod()]
@@ -29,10 +29,10 @@ namespace FileHistory.Tests
             {
                 BackupBaseDir = "C:\\dir1",
             };
-            Assert.AreEqual($"C:\\dir1\\{Environment.UserName}\\{Environment.MachineName}\\Configuration", settings.ConfigDir);
+            Assert.AreEqual($"C:\\dir1\\{Environment.UserName}\\{Environment.MachineName}\\Database", settings.ConfigDir);
 
             settings.BackupBaseDir = "C:\\dir1\\";
-            Assert.AreEqual($"C:\\dir1\\{Environment.UserName}\\{Environment.MachineName}\\Configuration", settings.ConfigDir);
+            Assert.AreEqual($"C:\\dir1\\{Environment.UserName}\\{Environment.MachineName}\\Database", settings.ConfigDir);
         }
 
         [TestMethod()]
@@ -42,10 +42,10 @@ namespace FileHistory.Tests
             {
                 BackupBaseDir = "C:\\dir1",
             };
-            Assert.AreEqual($"C:\\dir1\\{Environment.UserName}\\{Environment.MachineName}\\Configuration\\Catalog.db", settings.BackupDb);
+            Assert.AreEqual($"C:\\dir1\\{Environment.UserName}\\{Environment.MachineName}\\Database\\Catalog.db", settings.BackupDb);
 
             settings.BackupBaseDir = "C:\\dir1\\";
-            Assert.AreEqual($"C:\\dir1\\{Environment.UserName}\\{Environment.MachineName}\\Configuration\\Catalog.db", settings.BackupDb);
+            Assert.AreEqual($"C:\\dir1\\{Environment.UserName}\\{Environment.MachineName}\\Database\\Catalog.db", settings.BackupDb);
         }
 
         [TestMethod()]

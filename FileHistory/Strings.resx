@@ -68,15 +68,6 @@ Start a line with ! to make an exception (always back up), or with # for a comme
 Smaller = more versions kept, more disk space used.
 Default: 3600 (1 hour)</value>
   </data>
-  <data name="Settings_Tip_IdleTimer" xml:space="preserve">
-    <value>The full folder scan (crawling) runs only while you are away from the PC.
-It starts after there has been no mouse/keyboard input for this many seconds.
-Default: 600 (10 minutes)</value>
-  </data>
-  <data name="Settings_Tip_CrawlInterval" xml:space="preserve">
-    <value>After a full scan of all folders finishes, wait this many seconds before starting the next one.
-Default: 86400 (1 day)</value>
-  </data>
   <data name="Settings_Tip_MaxGenerations" xml:space="preserve">
     <value>Number of past versions kept per file; older versions beyond this are deleted.
 0 = keep all versions.
@@ -165,12 +156,6 @@ Settings file: {2}</value>
   <data name="Settings_DefaultInterval" xml:space="preserve">
     <value>Min. seconds between backups of a file:</value>
   </data>
-  <data name="Settings_IdleTimer" xml:space="preserve">
-    <value>Idle seconds before crawling starts:</value>
-  </data>
-  <data name="Settings_CrawlInterval" xml:space="preserve">
-    <value>Seconds between full crawls:</value>
-  </data>
   <data name="Settings_Retention" xml:space="preserve">
     <value>Retention (0 = keep everything)</value>
   </data>
@@ -216,8 +201,8 @@ Settings file: {2}</value>
   <data name="MainForm_CrawledFileCount" xml:space="preserve">
     <value>Crawled files:</value>
   </data>
-  <data name="MainForm_ButtonCleanup" xml:space="preserve">
-    <value>Clean Up Backups</value>
+  <data name="MainForm_MenuCleanup" xml:space="preserve">
+    <value>Clean &amp;Up Backups...</value>
   </data>
   <data name="MainForm_ButtonSuspend" xml:space="preserve">
     <value>Suspend Crawling</value>

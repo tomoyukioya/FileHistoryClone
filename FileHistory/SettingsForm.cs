@@ -21,7 +21,7 @@ namespace FileHistory
         TextBox _backupBaseDir;
         TextBox _includeBox;
         TextBox _excludeBox;
-        NumericUpDown _defaultInterval, _idleTimer, _crawlInterval;
+        NumericUpDown _defaultInterval;
         NumericUpDown _maxGenerations, _retentionDays;
         ComboBox _language;
 
@@ -31,6 +31,8 @@ namespace FileHistory
 
         // GUI から編集しない項目は読み込んだ値をそのまま書き戻す
         double _retentionScanLoaded = new AppSettingsData().RetentionScanInterval;
+        double _idleTimerLoaded = new AppSettingsData().CrawlingIdleTimer;
+        double _crawlIntervalLoaded = new AppSettingsData().CrawlingInterval;
 
         public SettingsForm(string configPath)
         {
@@ -143,18 +145,16 @@ namespace FileHistory
             Tip("Settings_Tip_Exclude", _excludeBox, exHint);
 
             // --- タイミング ---
+            // (クロール関係の CrawlingIdleTimer / CrawlingInterval は内部動作の詳細なので
+            //  GUI には出さない。appsettings.json の値はそのまま温存される)
             Header("Settings_Timing");
             Hint("Settings_TimingHint");
             _defaultInterval = MakeNumeric(0, int.MaxValue);
-            _idleTimer = MakeNumeric(0, int.MaxValue);
-            _crawlInterval = MakeNumeric(0, int.MaxValue);
             // 再バックアップ間隔の行だけ、フォルダごとの個別設定ボタンを右端に置く
             var perFolder = new Button { Text = Strings.Get("Settings_PerFolder"), AutoSize = true, Margin = new Padding(6, 1, 0, 1) };
             perFolder.Click += PerFolder_Click;
             AddNumericRow(tlp, ref row, "Settings_DefaultInterval", _defaultInterval, Tip, "Settings_Tip_DefaultInterval", perFolder);
             Tip("Settings_Tip_PerFolder", perFolder);
-            AddNumericRow(tlp, ref row, "Settings_IdleTimer", _idleTimer, Tip, "Settings_Tip_IdleTimer");
-            AddNumericRow(tlp, ref row, "Settings_CrawlInterval", _crawlInterval, Tip, "Settings_Tip_CrawlInterval");
 
             // --- 保持ポリシー ---
             // (適用間隔 RetentionScanInterval は内部動作の詳細なので GUI には出さない。
@@ -284,11 +284,11 @@ namespace FileHistory
 
                 _backupBaseDir.Text = d.BackupBaseDir;
                 _defaultInterval.Value = ClampToNumeric(_defaultInterval, d.DefaultBackupInterval);
-                _idleTimer.Value = ClampToNumeric(_idleTimer, d.CrawlingIdleTimer);
-                _crawlInterval.Value = ClampToNumeric(_crawlInterval, d.CrawlingInterval);
                 _maxGenerations.Value = ClampToNumeric(_maxGenerations, d.MaxGenerations);
                 _retentionDays.Value = ClampToNumeric(_retentionDays, d.RetentionDays);
                 _retentionScanLoaded = d.RetentionScanInterval;
+                _idleTimerLoaded = d.CrawlingIdleTimer;
+                _crawlIntervalLoaded = d.CrawlingInterval;
 
                 _language.SelectedIndex = (d.Language ?? "").Equals("en", StringComparison.OrdinalIgnoreCase) ? 1
                     : (d.Language ?? "").Equals("ja", StringComparison.OrdinalIgnoreCase) ? 2 : 0;
@@ -328,8 +328,8 @@ namespace FileHistory
                 {
                     BackupBaseDir = _backupBaseDir.Text.Trim(),
                     DefaultBackupInterval = (double)_defaultInterval.Value,
-                    CrawlingIdleTimer = (double)_idleTimer.Value,
-                    CrawlingInterval = (double)_crawlInterval.Value,
+                    CrawlingIdleTimer = _idleTimerLoaded,
+                    CrawlingInterval = _crawlIntervalLoaded,
                     MaxGenerations = (int)_maxGenerations.Value,
                     RetentionDays = (double)_retentionDays.Value,
                     RetentionScanInterval = _retentionScanLoaded,

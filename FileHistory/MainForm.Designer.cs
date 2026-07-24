@@ -39,11 +39,11 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.crawlingCount = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.button_cleanup = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuTools = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemOpenConfig = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemCleanup = new System.Windows.Forms.ToolStripMenuItem();
             this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemAbout = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
@@ -149,17 +149,6 @@
             this.label2.Size = new System.Drawing.Size(140, 15);
             this.label2.TabIndex = 5;
             this.label2.Text = "クローリング済みファイル数：";
-            // 
-            // button_cleanup
-            // 
-            this.button_cleanup.Location = new System.Drawing.Point(984, 37);
-            this.button_cleanup.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.button_cleanup.Name = "button_cleanup";
-            this.button_cleanup.Size = new System.Drawing.Size(120, 24);
-            this.button_cleanup.TabIndex = 7;
-            this.button_cleanup.Text = "バックアップ削除";
-            this.button_cleanup.UseVisualStyleBackColor = true;
-            this.button_cleanup.Click += new System.EventHandler(this.button_cleanup_Click);
             //
             // menuStrip1
             //
@@ -175,7 +164,8 @@
             //
             this.menuTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemSettings,
-            this.menuItemOpenConfig});
+            this.menuItemOpenConfig,
+            this.menuItemCleanup});
             this.menuTools.Name = "menuTools";
             this.menuTools.Size = new System.Drawing.Size(60, 20);
             this.menuTools.Text = "ツール(&T)";
@@ -193,6 +183,13 @@
             this.menuItemOpenConfig.Size = new System.Drawing.Size(220, 22);
             this.menuItemOpenConfig.Text = "設定ファイルの場所を開く(&O)";
             this.menuItemOpenConfig.Click += new System.EventHandler(this.menuItemOpenConfig_Click);
+            //
+            // menuItemCleanup
+            //
+            this.menuItemCleanup.Name = "menuItemCleanup";
+            this.menuItemCleanup.Size = new System.Drawing.Size(220, 22);
+            this.menuItemCleanup.Text = "バックアップ整理(&C)...";
+            this.menuItemCleanup.Click += new System.EventHandler(this.menuItemCleanup_Click);
             //
             // menuHelp
             //
@@ -214,7 +211,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1116, 482);
-            this.Controls.Add(this.button_cleanup);
             this.Controls.Add(this.crawlingCount);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.splitContainer);
@@ -249,7 +245,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.TextBox crawlingCount;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button_cleanup;
+        private System.Windows.Forms.ToolStripMenuItem menuItemCleanup;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem menuTools;
         private System.Windows.Forms.ToolStripMenuItem menuItemSettings;

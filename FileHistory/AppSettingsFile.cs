@@ -15,7 +15,7 @@ namespace FileHistory
     {
         public string BackupBaseDir { get; set; } = "%USERPROFILE%\\FileHistoryCloneBackup";
         public double DefaultBackupInterval { get; set; } = 3600;
-        public double CrawlingIdleTimer { get; set; } = 600;
+        public double CrawlingIdleTimer { get; set; } = 60;
         public double CrawlingInterval { get; set; } = 86400;
         public int MaxGenerations { get; set; } = 0;
         public double RetentionDays { get; set; } = 0;

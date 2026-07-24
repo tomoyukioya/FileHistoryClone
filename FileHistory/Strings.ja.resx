@@ -68,15 +68,6 @@
 小さくするほど細かく版が残る代わりにディスク使用量が増えます。
 既定値: 3600（1時間）</value>
   </data>
-  <data name="Settings_Tip_IdleTimer" xml:space="preserve">
-    <value>フォルダ全体のスキャン（クロール）は PC を使っていない間だけ実行されます。
-マウス・キーボードの操作がこの秒数ない状態になるとスキャンを開始します。
-既定値: 600（10分）</value>
-  </data>
-  <data name="Settings_Tip_CrawlInterval" xml:space="preserve">
-    <value>全フォルダのスキャンが終わってから、次のスキャンを始めるまでの待ち時間（秒）です。
-既定値: 86400（1日）</value>
-  </data>
   <data name="Settings_Tip_MaxGenerations" xml:space="preserve">
     <value>1つのファイルについて残す過去バージョンの数です。超えた分は古い順に削除されます。
 0 = すべて残す
@@ -164,12 +155,6 @@
   <data name="Settings_DefaultInterval" xml:space="preserve">
     <value>同一ファイルの再バックアップ最短間隔(秒):</value>
   </data>
-  <data name="Settings_IdleTimer" xml:space="preserve">
-    <value>クロール開始までのアイドル時間(秒):</value>
-  </data>
-  <data name="Settings_CrawlInterval" xml:space="preserve">
-    <value>フルクロール間の待機時間(秒):</value>
-  </data>
   <data name="Settings_Retention" xml:space="preserve">
     <value>保持ポリシー(0 = すべて保持)</value>
   </data>
@@ -215,8 +200,8 @@
   <data name="MainForm_CrawledFileCount" xml:space="preserve">
     <value>クローリング済みファイル数：</value>
   </data>
-  <data name="MainForm_ButtonCleanup" xml:space="preserve">
-    <value>バックアップ整理</value>
+  <data name="MainForm_MenuCleanup" xml:space="preserve">
+    <value>バックアップ整理(&amp;U)...</value>
   </data>
   <data name="MainForm_ButtonSuspend" xml:space="preserve">
     <value>クローリング一時停止</value>

@@ -31,12 +31,12 @@ namespace FileHistory
         List<KeyValuePair<DateTime, ScheduleItem>> _lowPrioritySchedules { get; set; }
         SemaphoreSlim _lowPrioritySchedulesSemaphore { get; set; }
         object _lowPrioritySchedulesLock { get; set; }
-        readonly int MAX_LOW_SCHEDULE = 100;
+        readonly int MAX_LOW_SCHEDULE;
 
         // Copy Worker
         Dictionary<string, Task> _copyWorkers;
         ManualResetEvent _copyWorkersExitEvent { get; set; }
-        readonly int MAX_COPY_WORKER = 10;
+        readonly int MAX_COPY_WORKER;
 
         // Worker管理
         CancellationTokenSource _cts { get; set; }
@@ -53,6 +53,9 @@ namespace FileHistory
             _settings = settings;
             _logger = loggerFactory.CreateLogger<BackupScheduler>();
             _db = db;
+
+            MAX_LOW_SCHEDULE = Math.Max(1, settings.MaxLowPrioritySchedules);
+            MAX_COPY_WORKER = Math.Max(1, settings.MaxCopyWorkers);
 
             _highPrioritySchedules = new SortedList<DateTime, List<ScheduleItem>>();
             _highPrioritySchedulesLock = new object();
@@ -389,6 +392,19 @@ namespace FileHistory
                 // DB追加
                 if (dbFile == null) dbFile = _db.InsertFile(file);
                 _db.InsertAttribute(dbFile.Id, now, fileAttr.CreationTime, fileAttr.LastWriteTime, fileAttr.LastAccessTime, fileAttr.Size);
+
+                // 保持ポリシーをこのファイルへ即時適用(失敗してもバックアップ自体は成功扱い)
+                if (_settings.MaxGenerations > 0 || _settings.RetentionDays > 0)
+                {
+                    try
+                    {
+                        RetentionWorker.PruneFileGenerations(_settings, _db, _logger, dbFile, token);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError($"Exception caught in retention pruning for \"{file}\": {ex}");
+                    }
+                }
             }
             catch (Exception ex)
             {

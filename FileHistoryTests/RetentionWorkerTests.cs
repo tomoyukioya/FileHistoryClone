@@ -103,6 +103,29 @@ namespace FileHistory.Tests
         }
 
         [TestMethod()]
+        public void PruneFileGenerations_AppliesPolicyToSingleFile()
+        {
+            // バックアップ保存直後の即時プルーニング(BackupSchedulerから呼ばれる経路)
+            var settings = MakeSettings(maxGenerations: 1, retentionDays: 0);
+            _db = new BackupDb(settings, new LoggerFactoryMock());
+
+            var original = @"C:\Demo\Documents\report.txt";
+            var g1 = new DateTime(2026, 1, 1);   // 削除対象
+            var g2 = new DateTime(2026, 2, 1);   // 最新
+            SeedGenerations(settings, original, g1, g2);
+
+            var file = _db.GetFile(original);
+            var deleted = RetentionWorker.PruneFileGenerations(
+                settings, _db, new LoggerFactoryMock().CreateLogger("test"), file, CancellationToken.None);
+
+            Assert.AreEqual(1, deleted);
+            var remaining = _db.GetAttributes(file.Id).Select(a => a.BackupTime).ToArray();
+            CollectionAssert.AreEqual(new[] { g2 }, remaining, "最新1世代のみ残ること");
+            Assert.IsFalse(BackupFileExists(settings, original, g1));
+            Assert.IsTrue(BackupFileExists(settings, original, g2));
+        }
+
+        [TestMethod()]
         public void SingleGeneration_IsNeverDeleted_EvenIfOld()
         {
             // 保持日数より古くても、唯一の世代（＝最新）は削除されない
