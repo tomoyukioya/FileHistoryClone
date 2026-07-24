@@ -40,6 +40,12 @@
             this.crawlingCount = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.button_cleanup = new System.Windows.Forms.Button();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.menuTools = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemOpenConfig = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemAbout = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -50,7 +56,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 13);
+            this.label1.Location = new System.Drawing.Point(10, 40);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(141, 15);
@@ -59,7 +65,7 @@
             // 
             // fileCount
             // 
-            this.fileCount.Location = new System.Drawing.Point(164, 11);
+            this.fileCount.Location = new System.Drawing.Point(164, 38);
             this.fileCount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.fileCount.Name = "fileCount";
             this.fileCount.ReadOnly = true;
@@ -72,7 +78,7 @@
             this.splitContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer.Location = new System.Drawing.Point(8, 41);
+            this.splitContainer.Location = new System.Drawing.Point(8, 68);
             this.splitContainer.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.splitContainer.Name = "splitContainer";
             // 
@@ -83,7 +89,7 @@
             // splitContainer.Panel2
             // 
             this.splitContainer.Panel2.Controls.Add(this.listView);
-            this.splitContainer.Size = new System.Drawing.Size(1096, 424);
+            this.splitContainer.Size = new System.Drawing.Size(1096, 397);
             this.splitContainer.SplitterDistance = 589;
             this.splitContainer.SplitterWidth = 6;
             this.splitContainer.TabIndex = 4;
@@ -126,7 +132,7 @@
             // 
             // crawlingCount
             // 
-            this.crawlingCount.Location = new System.Drawing.Point(486, 11);
+            this.crawlingCount.Location = new System.Drawing.Point(486, 38);
             this.crawlingCount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.crawlingCount.Name = "crawlingCount";
             this.crawlingCount.ReadOnly = true;
@@ -137,7 +143,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(333, 14);
+            this.label2.Location = new System.Drawing.Point(333, 41);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(140, 15);
@@ -146,7 +152,7 @@
             // 
             // button_cleanup
             // 
-            this.button_cleanup.Location = new System.Drawing.Point(984, 10);
+            this.button_cleanup.Location = new System.Drawing.Point(984, 37);
             this.button_cleanup.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button_cleanup.Name = "button_cleanup";
             this.button_cleanup.Size = new System.Drawing.Size(120, 24);
@@ -154,6 +160,54 @@
             this.button_cleanup.Text = "バックアップ削除";
             this.button_cleanup.UseVisualStyleBackColor = true;
             this.button_cleanup.Click += new System.EventHandler(this.button_cleanup_Click);
+            //
+            // menuStrip1
+            //
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuTools,
+            this.menuHelp});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1116, 24);
+            this.menuStrip1.TabIndex = 8;
+            //
+            // menuTools
+            //
+            this.menuTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuItemSettings,
+            this.menuItemOpenConfig});
+            this.menuTools.Name = "menuTools";
+            this.menuTools.Size = new System.Drawing.Size(60, 20);
+            this.menuTools.Text = "ツール(&T)";
+            //
+            // menuItemSettings
+            //
+            this.menuItemSettings.Name = "menuItemSettings";
+            this.menuItemSettings.Size = new System.Drawing.Size(220, 22);
+            this.menuItemSettings.Text = "設定(&S)...";
+            this.menuItemSettings.Click += new System.EventHandler(this.menuItemSettings_Click);
+            //
+            // menuItemOpenConfig
+            //
+            this.menuItemOpenConfig.Name = "menuItemOpenConfig";
+            this.menuItemOpenConfig.Size = new System.Drawing.Size(220, 22);
+            this.menuItemOpenConfig.Text = "設定ファイルの場所を開く(&O)";
+            this.menuItemOpenConfig.Click += new System.EventHandler(this.menuItemOpenConfig_Click);
+            //
+            // menuHelp
+            //
+            this.menuHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuItemAbout});
+            this.menuHelp.Name = "menuHelp";
+            this.menuHelp.Size = new System.Drawing.Size(65, 20);
+            this.menuHelp.Text = "ヘルプ(&H)";
+            //
+            // menuItemAbout
+            //
+            this.menuItemAbout.Name = "menuItemAbout";
+            this.menuItemAbout.Size = new System.Drawing.Size(180, 22);
+            this.menuItemAbout.Text = "バージョン情報(&A)...";
+            this.menuItemAbout.Click += new System.EventHandler(this.menuItemAbout_Click);
             //
             // MainForm
             //
@@ -166,6 +220,8 @@
             this.Controls.Add(this.splitContainer);
             this.Controls.Add(this.fileCount);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MinimumSize = new System.Drawing.Size(1132, 521);
@@ -194,5 +250,11 @@
         private System.Windows.Forms.TextBox crawlingCount;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button_cleanup;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem menuTools;
+        private System.Windows.Forms.ToolStripMenuItem menuItemSettings;
+        private System.Windows.Forms.ToolStripMenuItem menuItemOpenConfig;
+        private System.Windows.Forms.ToolStripMenuItem menuHelp;
+        private System.Windows.Forms.ToolStripMenuItem menuItemAbout;
     }
 }

@@ -63,13 +63,15 @@ The app starts minimized to the system tray. Right-click the tray icon for:
 | Menu | Action |
 | --- | --- |
 | Open | Open the restore window (double-click works too) |
-| Open Settings | Open `appsettings.json` in your editor |
+| Open Settings | Open the settings window |
 | Start with Windows | Toggle automatic start at logon |
 | Exit | Quit the application |
 
-## Configuration (`appsettings.json`)
+## Configuration
 
-**To change which folders are protected**, edit `appsettings.json`. The easiest way is the tray icon → **Open Settings** (or, if you used the installer, the Start-menu shortcut **Edit FileHistoryClone settings**). After editing, **restart the app** (tray → Exit, then launch again) to apply.
+The **Settings window** (tray icon → **Open Settings**, and shown automatically on first run) lets you choose the backup destination, the folders to protect, exclusions, timing, and retention — no file editing required. It writes those choices to `appsettings.json`.
+
+If you prefer, you can still edit `appsettings.json` by hand (it also accepts `//` comments). After editing the file directly, restart the app to apply.
 
 Where the file lives:
 

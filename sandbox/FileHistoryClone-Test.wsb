@@ -1,0 +1,15 @@
+<Configuration>
+  <!-- FileHistoryClone を隔離環境で試験するための Windows Sandbox 構成。
+       このファイルをダブルクリックすると Sandbox が起動し、
+       setup.cmd がアプリの展開・テストデータ作成・起動まで自動で行う。 -->
+  <MappedFolders>
+    <MappedFolder>
+      <HostFolder>C:\Users\tomoy\source\repos\FileHistoryClone\sandbox</HostFolder>
+      <SandboxFolder>C:\sandbox</SandboxFolder>
+      <ReadOnly>true</ReadOnly>
+    </MappedFolder>
+  </MappedFolders>
+  <LogonCommand>
+    <Command>cmd.exe /c C:\sandbox\setup.cmd</Command>
+  </LogonCommand>
+</Configuration>

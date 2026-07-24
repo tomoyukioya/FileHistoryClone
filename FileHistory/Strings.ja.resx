@@ -21,12 +21,6 @@
   <data name="Tray_AutoStart" xml:space="preserve">
     <value>Windows 起動時に実行(&amp;W)</value>
   </data>
-  <data name="Tray_OpenSettings" xml:space="preserve">
-    <value>設定を開く(&amp;S)(appsettings.json)</value>
-  </data>
-  <data name="Tray_SettingsHint" xml:space="preserve">
-    <value>保護するフォルダなどを編集し、FileHistoryClone を再起動(トレイアイコン→終了→もう一度起動)すると反映されます。</value>
-  </data>
   <data name="Tray_FirstRunNotice" xml:space="preserve">
     <value>バックアップを開始しました。保護対象: {0}</value>
   </data>
@@ -35,6 +29,182 @@
   </data>
   <data name="Common_Error" xml:space="preserve">
     <value>エラー</value>
+  </data>
+  <data name="Settings_Title" xml:space="preserve">
+    <value>FileHistoryClone 設定</value>
+  </data>
+  <data name="Settings_BackupDest" xml:space="preserve">
+    <value>バックアップの保存先</value>
+  </data>
+  <data name="Settings_BackupDestHint" xml:space="preserve">
+    <value>ファイルのコピー（バックアップ）はこのフォルダに保存されます。できれば元のファイルとは別のドライブを選ぶと安全です。</value>
+  </data>
+  <data name="Settings_ProtectedFoldersHint" xml:space="preserve">
+    <value>1行に1フォルダ。直接入力・編集できます。フォルダの中身（サブフォルダを含む）が自動でバックアップされます。</value>
+  </data>
+  <data name="Settings_TimingHint" xml:space="preserve">
+    <value>通常は既定値のままで問題ありません。各項目にマウスを合わせると説明が表示されます。</value>
+  </data>
+  <data name="Settings_RetentionHint" xml:space="preserve">
+    <value>バックアップをどれだけ残すかの上限です。古いバックアップは自動で定期的に削除されます。すべて 0 のままなら自動削除されません。</value>
+  </data>
+  <data name="Settings_Tip_BackupDir" xml:space="preserve">
+    <value>バックアップの保存先フォルダです。
+%USERPROFILE% などの環境変数も使えます。
+既定値: %USERPROFILE%\FileHistoryCloneBackup</value>
+  </data>
+  <data name="Settings_Tip_IncludeList" xml:space="preserve">
+    <value>監視してバックアップするフォルダです（サブフォルダも対象）。1行に1フォルダ。
+直接入力・編集するか、「追加...」ボタンでフォルダを選べます。
+ドキュメントなど、守りたいフォルダを1つ以上指定してください。</value>
+  </data>
+  <data name="Settings_Tip_Exclude" xml:space="preserve">
+    <value>ここのパターンに一致するファイル・フォルダはバックアップされません。
+ワイルドカード * と ? が使えます（例: *.tmp、node_modules）。
+行頭に ! を付けると例外（必ずバックアップする）、# を付けるとコメント行になります。</value>
+  </data>
+  <data name="Settings_Tip_DefaultInterval" xml:space="preserve">
+    <value>ファイルが何度変更されても、同じファイルのバックアップはこの秒数に1回までになります。
+小さくするほど細かく版が残る代わりにディスク使用量が増えます。
+既定値: 3600（1時間）</value>
+  </data>
+  <data name="Settings_Tip_IdleTimer" xml:space="preserve">
+    <value>フォルダ全体のスキャン（クロール）は PC を使っていない間だけ実行されます。
+マウス・キーボードの操作がこの秒数ない状態になるとスキャンを開始します。
+既定値: 600（10分）</value>
+  </data>
+  <data name="Settings_Tip_CrawlInterval" xml:space="preserve">
+    <value>全フォルダのスキャンが終わってから、次のスキャンを始めるまでの待ち時間（秒）です。
+既定値: 86400（1日）</value>
+  </data>
+  <data name="Settings_Tip_MaxGenerations" xml:space="preserve">
+    <value>1つのファイルについて残す過去バージョンの数です。超えた分は古い順に削除されます。
+0 = すべて残す
+既定値: 0</value>
+  </data>
+  <data name="Settings_Tip_RetentionDays" xml:space="preserve">
+    <value>この日数より古いバックアップを削除します。
+0 = 日数では削除しない
+既定値: 0</value>
+  </data>
+  <data name="Settings_Tip_Language" xml:space="preserve">
+    <value>画面表示の言語です。FileHistoryClone の次回起動時に反映されます。</value>
+  </data>
+  <data name="Settings_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Settings_PerFolder" xml:space="preserve">
+    <value>個別設定...</value>
+  </data>
+  <data name="Settings_PerFolderTitle" xml:space="preserve">
+    <value>フォルダごとのバックアップ間隔</value>
+  </data>
+  <data name="Settings_PerFolderHint" xml:space="preserve">
+    <value>保護対象フォルダごとに再バックアップ最短間隔（秒）を上書きできます。空欄のフォルダは既定値を使います。</value>
+  </data>
+  <data name="Settings_PerFolderColFolder" xml:space="preserve">
+    <value>フォルダ</value>
+  </data>
+  <data name="Settings_PerFolderColInterval" xml:space="preserve">
+    <value>間隔（秒）</value>
+  </data>
+  <data name="Settings_PerFolderInvalid" xml:space="preserve">
+    <value>間隔は空欄または 0 以上の数値を指定してください。</value>
+  </data>
+  <data name="Settings_Tip_PerFolder" xml:space="preserve">
+    <value>特定の保護対象フォルダだけバックアップ間隔を変えられます。
+個別設定のないフォルダは左の既定値を使います。</value>
+  </data>
+  <data name="MainForm_MenuTools" xml:space="preserve">
+    <value>ツール(&amp;T)</value>
+  </data>
+  <data name="MainForm_MenuSettings" xml:space="preserve">
+    <value>設定(&amp;S)...</value>
+  </data>
+  <data name="MainForm_MenuOpenConfig" xml:space="preserve">
+    <value>設定ファイルの場所を開く(&amp;O)</value>
+  </data>
+  <data name="MainForm_MenuHelp" xml:space="preserve">
+    <value>ヘルプ(&amp;H)</value>
+  </data>
+  <data name="MainForm_MenuAbout" xml:space="preserve">
+    <value>バージョン情報(&amp;A)...</value>
+  </data>
+  <data name="MainForm_AboutTitle" xml:space="preserve">
+    <value>バージョン情報</value>
+  </data>
+  <data name="MainForm_AboutText" xml:space="preserve">
+    <value>{0} バージョン {1}
+設定ファイル: {2}</value>
+  </data>
+  <data name="Cleanup_TemporaryNote" xml:space="preserve">
+    <value>この整理は一時的なものです。バックアップ容量を恒久的に抑えるには、設定画面の保持ポリシー（1ファイルの最大世代数・保持日数）を設定してください。</value>
+  </data>
+  <data name="Settings_Browse" xml:space="preserve">
+    <value>参照...</value>
+  </data>
+  <data name="Settings_ProtectedFolders" xml:space="preserve">
+    <value>保護対象のフォルダ</value>
+  </data>
+  <data name="Settings_Add" xml:space="preserve">
+    <value>追加...</value>
+  </data>
+  <data name="Settings_Remove" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="Settings_Exclusions" xml:space="preserve">
+    <value>除外パターン(1行に1つ)</value>
+  </data>
+  <data name="Settings_ExclusionsHint" xml:space="preserve">
+    <value>例: .git、node_modules、*.tmp、C:\Users\me\AppData、!important.log</value>
+  </data>
+  <data name="Settings_Timing" xml:space="preserve">
+    <value>タイミング</value>
+  </data>
+  <data name="Settings_DefaultInterval" xml:space="preserve">
+    <value>同一ファイルの再バックアップ最短間隔(秒):</value>
+  </data>
+  <data name="Settings_IdleTimer" xml:space="preserve">
+    <value>クロール開始までのアイドル時間(秒):</value>
+  </data>
+  <data name="Settings_CrawlInterval" xml:space="preserve">
+    <value>フルクロール間の待機時間(秒):</value>
+  </data>
+  <data name="Settings_Retention" xml:space="preserve">
+    <value>保持ポリシー(0 = すべて保持)</value>
+  </data>
+  <data name="Settings_MaxGenerations" xml:space="preserve">
+    <value>1ファイルの最大世代数:</value>
+  </data>
+  <data name="Settings_RetentionDays" xml:space="preserve">
+    <value>この日数より古いバックアップを削除:</value>
+  </data>
+  <data name="Settings_Language" xml:space="preserve">
+    <value>言語</value>
+  </data>
+  <data name="Settings_UiLanguage" xml:space="preserve">
+    <value>UI 言語:</value>
+  </data>
+  <data name="Settings_LangAuto" xml:space="preserve">
+    <value>自動(Windows に従う)</value>
+  </data>
+  <data name="Settings_Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="Settings_Cancel" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="Settings_SelectFolder" xml:space="preserve">
+    <value>フォルダを選択</value>
+  </data>
+  <data name="Settings_NeedBackupDir" xml:space="preserve">
+    <value>バックアップの保存先フォルダを選んでください。</value>
+  </data>
+  <data name="Settings_NeedIncludeDir" xml:space="preserve">
+    <value>保護対象のフォルダを1つ以上追加してください。</value>
+  </data>
+  <data name="Settings_RestartPrompt" xml:space="preserve">
+    <value>設定を保存しました。変更を反映するため FileHistoryClone を今すぐ再起動しますか?</value>
   </data>
   <data name="MainForm_Title" xml:space="preserve">
     <value>FileHistoryClone ファイル復元</value>

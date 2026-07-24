@@ -27,6 +27,7 @@ namespace FileHistory
         DirectoryDbEntry GetDirectryFromFilePath(string fullPath);
         DirectoryDbEntry GetDirectryFromDirPath(string dirPath);
         string GetFileDir(int fileId);
+        string GetDirPath(int directoryId);
         IEnumerable<FileDbEntry> FindAllFiles();
         void Dispose();
         bool DeleteFile(int fileId);
@@ -457,7 +458,11 @@ namespace FileHistory
         public string GetFileDir(int fileId)
         {
             var fileentry = _fileDbEntries.FindById(fileId);
-            var directoryId = fileentry.DirectoryId;
+            return GetDirPath(fileentry.DirectoryId);
+        }
+
+        public string GetDirPath(int directoryId)
+        {
             var ret = "";
             while (directoryId != -1)
             {

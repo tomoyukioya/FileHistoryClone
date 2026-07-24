@@ -57,6 +57,7 @@ namespace FileHistory
                 comboBox.Items.Add(Strings.Get("Cleanup_ModeKeepAllLatest"));
                 comboBox.Items.Add(Strings.Get("Cleanup_ModeKeepExistingLatest"));
                 comboBox.SelectedIndex = 0;
+                labelNote.Text = Strings.Get("Cleanup_TemporaryNote");
             }
             catch (Exception ex)
             {

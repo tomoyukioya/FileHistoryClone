@@ -37,6 +37,7 @@
             comboBox = new System.Windows.Forms.ComboBox();
             DeleteCountTextBox = new System.Windows.Forms.TextBox();
             label2 = new System.Windows.Forms.Label();
+            labelNote = new System.Windows.Forms.Label();
             SuspendLayout();
             // 
             // buttonClose
@@ -115,13 +116,26 @@
             label2.Size = new System.Drawing.Size(89, 15);
             label2.TabIndex = 8;
             label2.Text = "削除ファイル数：";
-            // 
+            //
+            // labelNote
+            //
+            labelNote.AutoSize = true;
+            labelNote.ForeColor = System.Drawing.SystemColors.GrayText;
+            labelNote.Location = new System.Drawing.Point(12, 140);
+            labelNote.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            labelNote.MaximumSize = new System.Drawing.Size(366, 0);
+            labelNote.Name = "labelNote";
+            labelNote.Size = new System.Drawing.Size(100, 15);
+            labelNote.TabIndex = 10;
+            labelNote.Text = "注意書き";
+            //
             // CleanupForm
-            // 
+            //
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(393, 145);
+            ClientSize = new System.Drawing.Size(393, 192);
             ControlBox = false;
+            Controls.Add(labelNote);
             Controls.Add(DeleteCountTextBox);
             Controls.Add(label2);
             Controls.Add(comboBox);
@@ -149,5 +163,6 @@
         private System.Windows.Forms.ComboBox comboBox;
         private System.Windows.Forms.TextBox DeleteCountTextBox;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label labelNote;
     }
 }

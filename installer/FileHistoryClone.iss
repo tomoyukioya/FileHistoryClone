@@ -1,9 +1,9 @@
 ; Inno Setup script for FileHistoryClone
-; Build:  ISCC.exe /DSourceDir="<publish output folder>" /DMyAppVersion=1.0.0 installer\FileHistoryClone.iss
+; Build:  ISCC.exe /DSourceDir="<publish output folder>" /DMyAppVersion=1.0.1 installer\FileHistoryClone.iss
 ; Per-user install (no admin needed); bundles the self-contained single-file build.
 
 #ifndef MyAppVersion
-  #define MyAppVersion "1.0.0"
+  #define MyAppVersion "1.0.1"
 #endif
 #ifndef SourceDir
   #define SourceDir "..\FileHistory\bin\Release\net8.0-windows\win-x64\publish"
@@ -77,11 +77,14 @@ Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#MyAppName}}
 
 [Code]
 // Stop any running FileHistoryClone instance so its files can be replaced/removed.
+// (Uses PowerShell Stop-Process instead of taskkill: taskkill depends on the WMI
+//  service and hangs forever when WMI is down, e.g. in Windows Sandbox.)
 procedure KillRunningApp;
 var
   ResultCode: Integer;
 begin
-  Exec(ExpandConstant('{sys}\taskkill.exe'), '/IM ' + '{#MyAppExeName}' + ' /F',
+  Exec(ExpandConstant('{sys}\WindowsPowerShell\v1.0\powershell.exe'),
+       '-NoProfile -Command Stop-Process -Name FileHistory -Force -ErrorAction SilentlyContinue',
        '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
 end;
 

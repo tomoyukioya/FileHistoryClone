@@ -166,6 +166,9 @@ namespace FileHistory
                 {
                     if (token.IsCancellationRequested) return;
 
+                    // ファイル単位の除外パターン(*.tmp など)
+                    if (_settings.IsExcluded(file)) continue;
+
                     // CrawlingSuspended > 0ならクローリング一時停止
                     if (CrawlingSuspended > 0)
                     {

@@ -53,14 +53,57 @@ namespace FileHistory
         }
 
         /// <summary>
+        /// アプリのバージョン表記 ("1.0.1")。ビルドメタデータ(+以降)は表示しない。
+        /// (Application.ProductVersion はエントリアセンブリ依存のため自アセンブリから取る)
+        /// </summary>
+        static string AppVersion =>
+            (System.Reflection.CustomAttributeExtensions.GetCustomAttribute<System.Reflection.AssemblyInformationalVersionAttribute>(
+                typeof(MainForm).Assembly)?.InformationalVersion ?? Application.ProductVersion).Split('+')[0];
+
+        /// <summary>
         /// UI文字列をリソースから設定
         /// </summary>
         void ApplyLocalization()
         {
-            Text = Strings.Get("MainForm_Title");
+            Text = $"{Strings.Get("MainForm_Title")} - v{AppVersion}";
             label1.Text = Strings.Get("MainForm_BackedUpFileCount");
             label2.Text = Strings.Get("MainForm_CrawledFileCount");
             button_cleanup.Text = Strings.Get("MainForm_ButtonCleanup");
+            menuTools.Text = Strings.Get("MainForm_MenuTools");
+            menuItemSettings.Text = Strings.Get("MainForm_MenuSettings");
+            menuItemOpenConfig.Text = Strings.Get("MainForm_MenuOpenConfig");
+            menuHelp.Text = Strings.Get("MainForm_MenuHelp");
+            menuItemAbout.Text = Strings.Get("MainForm_MenuAbout");
+        }
+
+        /// <summary>設定画面を開く(保存されたら再起動を促す)</summary>
+        private void menuItemSettings_Click(object sender, EventArgs e)
+        {
+            _logger.LogInformation("Menu-OpenSettings by user operation.");
+            Program.OpenSettings();
+        }
+
+        /// <summary>エクスプローラーで appsettings.json の場所を開く</summary>
+        private void menuItemOpenConfig_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _logger.LogInformation("Menu-OpenConfigLocation by user operation.");
+                System.Diagnostics.Process.Start("explorer.exe", $"/select,\"{Program.ConfigPath}\"");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Exception caught in menuItemOpenConfig_Click(): {ex}", ex);
+            }
+        }
+
+        /// <summary>バージョン情報を表示する</summary>
+        private void menuItemAbout_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(this,
+                Strings.Format("MainForm_AboutText", Application.ProductName, AppVersion, Program.ConfigPath),
+                Strings.Get("MainForm_AboutTitle"),
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         /// <summary>
@@ -223,7 +266,8 @@ namespace FileHistory
                 return;
             }
 
-            // 復元先ディレクトリ指定
+            // 復元先ディレクトリ指定(初期フォルダは元ファイルのあった場所)
+            var backupFileDir = _db.GetFileDir(fileDbEntry.Id);
             var distDir = "";
             using (var fbd = new FolderBrowserDialog()
             {
@@ -231,11 +275,11 @@ namespace FileHistory
                 UseDescriptionForTitle = true,
             })
             {
+                if (Directory.Exists(backupFileDir)) fbd.SelectedPath = backupFileDir;
                 if (fbd.ShowDialog() != DialogResult.OK) return;
                 distDir = fbd.SelectedPath;
             }
 
-            var backupFileDir = _db.GetFileDir(fileDbEntry.Id);
             var backupFileFullPath = BackupDb.BackupFileName(_settings.DataDir, Path.Combine(backupFileDir, fileDbEntry.Name), attrDbEntry.BackupTime);
             if (!File.Exists(backupFileFullPath))
             {
@@ -299,7 +343,8 @@ namespace FileHistory
                 return;
             }
 
-            // 復元先ディレクトリ指定
+            // 復元先ディレクトリ指定(初期フォルダは元ディレクトリの親)
+            var origParent = Path.GetDirectoryName(_db.GetDirPath(dirDbEntry.Id));
             var distDir = "";
             using (var fbd = new FolderBrowserDialog()
             {
@@ -307,6 +352,7 @@ namespace FileHistory
                 UseDescriptionForTitle = true,
             })
             {
+                if (!string.IsNullOrEmpty(origParent) && Directory.Exists(origParent)) fbd.SelectedPath = origParent;
                 if (fbd.ShowDialog() != DialogResult.OK) return;
                 distDir = fbd.SelectedPath;
             }

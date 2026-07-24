@@ -45,28 +45,41 @@ namespace FileHistory
                 key.DeleteValue(RunValueName, throwOnMissingValue: false);
         }
 
+        // appsettings.json は実行ファイルと同じフォルダに置く
+        internal static string ConfigPath => Path.Combine(AppContext.BaseDirectory, "appsettings.json");
+
         /// <summary>
-        /// 初回起動時のみ、バックアップが開始されたことをトレイ通知で知らせる
+        /// 現在のアプリを終了し、少し待ってから起動し直す(設定変更の反映用)。
+        /// 遅延を挟むのは多重起動防止 Mutex の解放を待つため。
         /// </summary>
-        static void ShowFirstRunNotice(Settings settings)
+        static void RestartApp()
         {
             try
             {
-                var marker = Path.Combine(settings.ConfigDir, ".firstrun");
-                if (File.Exists(marker)) return;
-
-                _icon.BalloonTipTitle = "FileHistoryClone";
-                _icon.BalloonTipText = Strings.Format("Tray_FirstRunNotice", string.Join(", ", settings.CrawlingBaseDirs));
-                _icon.BalloonTipIcon = ToolTipIcon.Info;
-                _icon.ShowBalloonTip(10000);
-
-                Directory.CreateDirectory(settings.ConfigDir);
-                File.WriteAllText(marker, DateTime.Now.ToString("o"));
+                var exe = Environment.ProcessPath;
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("cmd.exe",
+                    $"/c ping -n 3 127.0.0.1 >nul & start \"\" \"{exe}\"") { CreateNoWindow = true, UseShellExecute = false });
             }
-            catch (Exception ex)
+            catch (Exception ex) { logger?.LogError("Exception caught in RestartApp(): {ex}", ex); }
+            Application.Exit();
+        }
+
+        /// <summary>
+        /// 設定 GUI を開き、保存されたら再起動を促す。(メイン画面のメニューから呼ばれる)
+        /// </summary>
+        internal static void OpenSettings()
+        {
+            try
             {
-                logger?.LogError("Exception caught in ShowFirstRunNotice(): {ex}", ex);
+                using var sf = new SettingsForm(ConfigPath);
+                if (sf.ShowDialog() == DialogResult.OK)
+                {
+                    if (MessageBox.Show(Strings.Get("Settings_RestartPrompt"), "FileHistoryClone",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        RestartApp();
+                }
             }
+            catch (Exception ex) { logger?.LogError("Exception caught in OpenSettings(): {ex}", ex); }
         }
 
         /// <summary>
@@ -197,27 +210,6 @@ namespace FileHistory
                         }
                     }
                     menuOpen.Click += (s, e) => OpenMainForm();
-                    var menuSettings = new ToolStripMenuItem { Text = Strings.Get("Tray_OpenSettings") };
-                    menuSettings.Click += (s, e) =>
-                    {
-                        try
-                        {
-                            var settingsPath = Path.Combine(AppContext.BaseDirectory, "appsettings.json");
-                            logger?.LogInformation($"Menu-OpenSettings: {settingsPath}");
-                            // 既定のエディタで appsettings.json を開く
-                            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(settingsPath) { UseShellExecute = true });
-                            _icon.BalloonTipTitle = "FileHistoryClone";
-                            _icon.BalloonTipText = Strings.Get("Tray_SettingsHint");
-                            _icon.BalloonTipIcon = ToolTipIcon.Info;
-                            _icon.ShowBalloonTip(8000);
-                        }
-                        catch (Exception ex)
-                        {
-                            logger?.LogError("Exception caught in menuSettings_Click(): {ex}", ex);
-                            // 開けない場合はフォルダを開く
-                            try { System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(AppContext.BaseDirectory) { UseShellExecute = true }); } catch { }
-                        }
-                    };
                     var menuAutoStart = new ToolStripMenuItem
                     {
                         Text = Strings.Get("Tray_AutoStart"),
@@ -244,7 +236,6 @@ namespace FileHistory
                     };
                     menu.Items.Add(menuOpen);
                     menu.Items.Add(new ToolStripSeparator());
-                    menu.Items.Add(menuSettings);
                     menu.Items.Add(menuAutoStart);
                     menu.Items.Add(new ToolStripSeparator());
                     menu.Items.Add(menuExit);
@@ -260,13 +251,33 @@ namespace FileHistory
                     }
                     else
                     {
+                        var settings = serviceProvider.GetRequiredService<Settings>();
+
+                        // 初回起動: 設定 GUI でバックアップ先・保護フォルダを指定してもらう
+                        var firstRunMarker = Path.Combine(settings.ConfigDir, ".firstrun");
+                        if (!File.Exists(firstRunMarker))
+                        {
+                            try { Directory.CreateDirectory(settings.ConfigDir); File.WriteAllText(firstRunMarker, DateTime.Now.ToString("o")); } catch { }
+                            // マーカーがなくてもバックアップ実績(カタログDB)があれば
+                            // 旧バージョンからのアップグレードなので、初回セットアップは出さない
+                            if (!File.Exists(settings.BackupDb))
+                            {
+                                using var sf = new SettingsForm(ConfigPath);
+                                if (sf.ShowDialog() == DialogResult.OK)
+                                {
+                                    RestartApp();   // 新しい設定で起動し直す
+                                    break;
+                                }
+                                // キャンセル時は既定設定のまま起動を続ける
+                            }
+                        }
+
                         _backupDb = serviceProvider.GetRequiredService<IBackupDb>();
                         _backupScheduler = serviceProvider.GetRequiredService<IBackupScheduler>();
                         _directoryWatcher = serviceProvider.GetRequiredService<DirectoryWatcher>();
                         _crawler = serviceProvider.GetRequiredService<Crawler>();
                         _retentionWorker = serviceProvider.GetRequiredService<RetentionWorker>();
                         _idleTimeWatcher = serviceProvider.GetRequiredService<IdleTimeWatcher>();
-                        ShowFirstRunNotice(serviceProvider.GetRequiredService<Settings>());
                         Application.Run();
                     }
 

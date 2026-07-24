@@ -5,7 +5,7 @@
     <TargetFramework>net8.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon>FileHistoryCloneMainIcon.ico</ApplicationIcon>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Product>FileHistoryClone</Product>
     <Description>Windows File History-style continuous versioned backup tool</Description>
   </PropertyGroup>

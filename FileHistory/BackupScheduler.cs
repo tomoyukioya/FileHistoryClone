@@ -117,6 +117,8 @@ namespace FileHistory
             else
             {
                 // Lowプライオリティの場合
+                if (_settings.IsExcluded(path)) return;
+
                 DateTime backupAt;
                 if (dbAttr == null)
                     backupAt = fileAttr.LastUpdate + TimeSpan.FromSeconds(_settings.BackupInterval(path));

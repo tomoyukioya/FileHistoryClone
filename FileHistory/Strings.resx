@@ -21,12 +21,6 @@
   <data name="Tray_AutoStart" xml:space="preserve">
     <value>Start with &amp;Windows</value>
   </data>
-  <data name="Tray_OpenSettings" xml:space="preserve">
-    <value>Open &amp;Settings (appsettings.json)</value>
-  </data>
-  <data name="Tray_SettingsHint" xml:space="preserve">
-    <value>Edit the folders to protect, then restart FileHistoryClone (tray icon - Exit, then launch again) to apply.</value>
-  </data>
   <data name="Tray_FirstRunNotice" xml:space="preserve">
     <value>Backup started. Protected folders: {0}</value>
   </data>
@@ -35,6 +29,183 @@
   </data>
   <data name="Common_Error" xml:space="preserve">
     <value>Error</value>
+  </data>
+  <data name="Settings_Title" xml:space="preserve">
+    <value>FileHistoryClone Settings</value>
+  </data>
+  <data name="Settings_BackupDest" xml:space="preserve">
+    <value>Where to store backups</value>
+  </data>
+  <data name="Settings_BackupDestHint" xml:space="preserve">
+    <value>Backup copies of your files are saved into this folder. If possible, choose a different drive from the originals.</value>
+  </data>
+  <data name="Settings_ProtectedFoldersHint" xml:space="preserve">
+    <value>One folder per line - you can type and edit paths directly. Everything inside (subfolders included) is backed up automatically.</value>
+  </data>
+  <data name="Settings_TimingHint" xml:space="preserve">
+    <value>The defaults work well for most users. Hover over an item to see what it does.</value>
+  </data>
+  <data name="Settings_RetentionHint" xml:space="preserve">
+    <value>Limits how much backup history is kept; old backups are cleaned up automatically in the background. Leave all at 0 to keep everything forever.</value>
+  </data>
+  <data name="Settings_Tip_BackupDir" xml:space="preserve">
+    <value>Folder where backup copies are stored.
+Environment variables such as %USERPROFILE% can be used.
+Default: %USERPROFILE%\FileHistoryCloneBackup</value>
+  </data>
+  <data name="Settings_Tip_IncludeList" xml:space="preserve">
+    <value>Folders to watch and back up (subfolders included), one per line.
+Type or edit paths directly, or pick a folder with the Add button.
+Add at least one folder you want to protect, e.g. Documents.</value>
+  </data>
+  <data name="Settings_Tip_Exclude" xml:space="preserve">
+    <value>Files and folders matching any pattern here are not backed up.
+Wildcards * and ? can be used (e.g. *.tmp, node_modules).
+Start a line with ! to make an exception (always back up), or with # for a comment.</value>
+  </data>
+  <data name="Settings_Tip_DefaultInterval" xml:space="preserve">
+    <value>Even if a file changes many times, it is backed up at most once per this many seconds.
+Smaller = more versions kept, more disk space used.
+Default: 3600 (1 hour)</value>
+  </data>
+  <data name="Settings_Tip_IdleTimer" xml:space="preserve">
+    <value>The full folder scan (crawling) runs only while you are away from the PC.
+It starts after there has been no mouse/keyboard input for this many seconds.
+Default: 600 (10 minutes)</value>
+  </data>
+  <data name="Settings_Tip_CrawlInterval" xml:space="preserve">
+    <value>After a full scan of all folders finishes, wait this many seconds before starting the next one.
+Default: 86400 (1 day)</value>
+  </data>
+  <data name="Settings_Tip_MaxGenerations" xml:space="preserve">
+    <value>Number of past versions kept per file; older versions beyond this are deleted.
+0 = keep all versions.
+Default: 0</value>
+  </data>
+  <data name="Settings_Tip_RetentionDays" xml:space="preserve">
+    <value>Backups older than this many days are deleted.
+0 = never delete by age.
+Default: 0</value>
+  </data>
+  <data name="Settings_Tip_Language" xml:space="preserve">
+    <value>Language of the app's windows and menus.
+Applied the next time FileHistoryClone starts.</value>
+  </data>
+  <data name="Settings_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Settings_PerFolder" xml:space="preserve">
+    <value>Per-folder...</value>
+  </data>
+  <data name="Settings_PerFolderTitle" xml:space="preserve">
+    <value>Per-folder Backup Interval</value>
+  </data>
+  <data name="Settings_PerFolderHint" xml:space="preserve">
+    <value>Set a custom minimum backup interval (seconds) per protected folder. Leave blank to use the default value.</value>
+  </data>
+  <data name="Settings_PerFolderColFolder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="Settings_PerFolderColInterval" xml:space="preserve">
+    <value>Interval (seconds)</value>
+  </data>
+  <data name="Settings_PerFolderInvalid" xml:space="preserve">
+    <value>The interval must be blank or a number of 0 or more.</value>
+  </data>
+  <data name="Settings_Tip_PerFolder" xml:space="preserve">
+    <value>Override the backup interval for specific protected folders.
+Folders without a custom value use the default on the left.</value>
+  </data>
+  <data name="MainForm_MenuTools" xml:space="preserve">
+    <value>&amp;Tools</value>
+  </data>
+  <data name="MainForm_MenuSettings" xml:space="preserve">
+    <value>&amp;Settings...</value>
+  </data>
+  <data name="MainForm_MenuOpenConfig" xml:space="preserve">
+    <value>&amp;Open settings file location</value>
+  </data>
+  <data name="MainForm_MenuHelp" xml:space="preserve">
+    <value>&amp;Help</value>
+  </data>
+  <data name="MainForm_MenuAbout" xml:space="preserve">
+    <value>&amp;About...</value>
+  </data>
+  <data name="MainForm_AboutTitle" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="MainForm_AboutText" xml:space="preserve">
+    <value>{0} version {1}
+Settings file: {2}</value>
+  </data>
+  <data name="Cleanup_TemporaryNote" xml:space="preserve">
+    <value>This cleanup is a one-time operation. To keep backup size down permanently, set the retention policy (max generations / retention days) in the Settings window.</value>
+  </data>
+  <data name="Settings_Browse" xml:space="preserve">
+    <value>Browse...</value>
+  </data>
+  <data name="Settings_ProtectedFolders" xml:space="preserve">
+    <value>Folders to protect</value>
+  </data>
+  <data name="Settings_Add" xml:space="preserve">
+    <value>Add...</value>
+  </data>
+  <data name="Settings_Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="Settings_Exclusions" xml:space="preserve">
+    <value>Exclusions (one pattern per line)</value>
+  </data>
+  <data name="Settings_ExclusionsHint" xml:space="preserve">
+    <value>e.g. .git, node_modules, *.tmp, C:\Users\me\AppData, !important.log</value>
+  </data>
+  <data name="Settings_Timing" xml:space="preserve">
+    <value>Timing</value>
+  </data>
+  <data name="Settings_DefaultInterval" xml:space="preserve">
+    <value>Min. seconds between backups of a file:</value>
+  </data>
+  <data name="Settings_IdleTimer" xml:space="preserve">
+    <value>Idle seconds before crawling starts:</value>
+  </data>
+  <data name="Settings_CrawlInterval" xml:space="preserve">
+    <value>Seconds between full crawls:</value>
+  </data>
+  <data name="Settings_Retention" xml:space="preserve">
+    <value>Retention (0 = keep everything)</value>
+  </data>
+  <data name="Settings_MaxGenerations" xml:space="preserve">
+    <value>Max generations per file:</value>
+  </data>
+  <data name="Settings_RetentionDays" xml:space="preserve">
+    <value>Delete backups older than (days):</value>
+  </data>
+  <data name="Settings_Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Settings_UiLanguage" xml:space="preserve">
+    <value>UI language:</value>
+  </data>
+  <data name="Settings_LangAuto" xml:space="preserve">
+    <value>Auto (follow Windows)</value>
+  </data>
+  <data name="Settings_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Settings_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Settings_SelectFolder" xml:space="preserve">
+    <value>Select a folder</value>
+  </data>
+  <data name="Settings_NeedBackupDir" xml:space="preserve">
+    <value>Please choose a folder to store backups.</value>
+  </data>
+  <data name="Settings_NeedIncludeDir" xml:space="preserve">
+    <value>Please add at least one folder to protect.</value>
+  </data>
+  <data name="Settings_RestartPrompt" xml:space="preserve">
+    <value>Settings saved. Restart FileHistoryClone now to apply the changes?</value>
   </data>
   <data name="MainForm_Title" xml:space="preserve">
     <value>FileHistoryClone - Restore Files</value>
